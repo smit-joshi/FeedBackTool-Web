@@ -3,13 +3,15 @@
  */
 'use strict';
 
-feedbackControllers.controller('loginController', ['$scope', 'login', '$window', '$http',
-    function ($scope, login, $window, $http) {
+feedbackControllers.controller('loginController', ['$scope', '$window', '$http', 'login', 'addSession',
+    function ($scope, $window, $http, login, addSession) {
         $scope.myLogin = function(){
 
-            login.save({username:$scope.username, password:$scope.password}, function(response){
-                alert(response);
-                $window.location.href = '/home';
+            login.get({username : $scope.username, password : $scope.password}, function(response){
+                addSession.save(response,function(){
+                    $window.location.href = "#/home";
+                });
+
             });
         };
     }]);

@@ -9,12 +9,16 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Home</title>
+    <title>History</title>
 
-
+    <style type="text/css">
+        .bs-example{
+            margin: 20px;
+        }
+    </style>
 </head>
 
-<body id="page-top" class="index">
+<body id="page-top" class="index" >
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -52,57 +56,40 @@
         </div>
         <!-- /.container-fluid -->
     </nav>
-
     <!-- Header -->
-
-
     <!-- Contact Section -->
-    <section id="contact">
+    <section id="contact" style="height: 100%">
         <div class="container">
-
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
-                    <!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
-                    <form method="post" enctype="multipart/form-data" name="sentMessage" id="contactForm" novalidate>
-                      <br><br>
-
-                        <div class="row control-group">
-                            <div class="form-group col-xs-12 floating-label-form-group controls">
-                                <label>Comment Here</label>
-                                <textarea rows="5" class="form-control" ng-model="commentsData" placeholder="Message" id="message" required data-validation-required-message="Please enter a message."></textarea>
-                                <p class="help-block text-danger"></p>
-                            </div>
-
+        <br>
+        <h4 style="text-align: center">History List</h4>
+            <div class="bs-example">
+                <div class="panel-group" id="accordion" ng-repeat="comments in commentsData">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#/commentsDetail?commentId={{comments.commentId}}">Comment {{comments.commentId}}</a>
+                            </h4>
                         </div>
-                        <br>
-                        <br>
-                            <input id="image" name="file" class="file" type="file">
-                            <br>
-                            <button type="submit" id="submitClick" class="btn btn-primary">Submit</button>
-                            <button type="reset" class="btn btn-default">Reset</button>
-                        </form>
-                        <br>
-                        <div id="success"></div>
-                        <!--<div class="row">
-                            <div class="form-group col-xs-12 ">
-                                <button type="submit" class="btn btn-success btn-md col-xs-2 ">Send</button>
+                        <div id="collapseOne" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <p><img src="http://localhost:8080/Feedback/uploads/{{comments.filepath}}" height="100px;" width="100px;" alt="No Image"></p>
+                                <p>{{comments.commentsDetail}}</p>
+                                <p>{{comments.commentDate}}</p>
                             </div>
-                        </div>-->
-                    </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
     </section>
 
     <!-- Footer -->
     <footer class="text-center">
-
         <div class="footer-below">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-
                         created by <A HREF="" target="_blank"> Green Apex</A>
                     </div>
                 </div>
@@ -116,6 +103,5 @@
             <i class="fa fa-chevron-up"></i>
         </a>
     </div>
-
 </body>
 </html>

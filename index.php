@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Login</title>
+
 
     <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -31,9 +31,15 @@
     <script src="angular/angular-resource.min.js"></script>
     <!--FeedbackApp Angular JS files-->
     <script src="angular/main.js"></script>
+    <script src="angular/mainDirective.js"></script>
     <!--Controller / Services / Directives JS files-->
-    <script src="domain/login/loginController.js"></script>
+    <script src="phpLibrary/sessionMgtServices.js"></script>
     <script src="domain/login/loginService.js"></script>
+    <script src="domain/login/loginController.js"></script>
+    <script src="domain/comments/homeController.js"></script>
+    <script src="domain/comments/commentsService.js"></script>
+    <script src="domain/comments/commentsController.js"></script>
+    <script src="domain/comments/commentsDetailController.js"></script>
 
 </head>
 

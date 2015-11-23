@@ -5,9 +5,8 @@
 
 feedbackServices.factory('login', ['$resource','userConst',
     function($resource,userConst){
-        //alert("1");
-        return $resource(userConst + ':verb', {verb:'auth', password:'@password',username:'@username'}, {
-            query: { method: "POST"}
+        return $resource(userConst + ':verb', {verb:'auth', username:'@username',password:'@password'}, {
+            query: { method: "GET"}
         });
 
     }]);
