@@ -3,8 +3,8 @@
  */
 'use strict';
 
-feedbackControllers.controller('commentsController', ['$scope', '$window', '$http', 'getSession', 'comments', 'removeSession',
-    function ($scope, $window, $http, getSession, comments, removeSession) {
+feedbackControllers.controller('commentsController', ['$scope', '$window', '$http', 'getSession', 'comments',
+    function ($scope, $window, $http, getSession, comments) {
         $scope.userId;
         getSession.get(function (response) {
             $scope.userId = response.data.userId;
@@ -15,11 +15,4 @@ feedbackControllers.controller('commentsController', ['$scope', '$window', '$htt
                     alert("error");
                 });
         });
-        $scope.logout = function(){
-            removeSession.save(function(){
-                $scope.userId = "";
-                $window.location.href = "#/login";
-            });
-        };
-
     }]);

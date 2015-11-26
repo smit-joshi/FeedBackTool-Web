@@ -2,7 +2,7 @@
  * Created by SMIT on 21-11-2015.
  */
 
-moreKartApp.directive('feedbackHeader', function () {
+feedbackApp.directive('feedbackHeader', function () {
     return {
         restrict: 'E',
         templateUrl: 'domainLibrary/header.php',
@@ -12,8 +12,10 @@ moreKartApp.directive('feedbackHeader', function () {
             function ($scope, $window, getSession, removeSession) {
                 $scope.userId = "";
                 getSession.get(function (response) {
+                    $scope.userProfile = true;
                     if (response.SESSION != "NOSESSION") {
                         $scope.userId = response.data.userId;
+                        $scope.userName = response.data.userName;
                         if ($scope.userId != null) {
 
                         } else {
@@ -33,5 +35,12 @@ moreKartApp.directive('feedbackHeader', function () {
                 };
             }
         ]
+    }
+});
+
+feedbackApp.directive('feedbackFooter', function(){
+    return{
+        restrict: 'E',
+        templateUrl: 'domainLibrary/footer.php'
     }
 });

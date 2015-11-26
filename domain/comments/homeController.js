@@ -3,8 +3,8 @@
  */
 'use strict';
 
-feedbackControllers.controller('homeController', ['$scope', '$window', '$http', 'getSession', 'fileUploadsAndComments', 'removeSession',
-    function ($scope, $window, $http, getSession, fileUploadsAndComments, removeSession) {
+feedbackControllers.controller('homeController', ['$scope', '$window', '$http', 'getSession', 'fileUploadsAndComments',
+    function ($scope, $window, $http, getSession, fileUploadsAndComments) {
         $scope.userId = "";
 
         getSession.get(function (response) {
@@ -28,7 +28,8 @@ feedbackControllers.controller('homeController', ['$scope', '$window', '$http', 
                     fileUploadsAndComments.save({
                         filePath: filePath,
                         comments: $scope.commentsData,
-                        userId: $scope.userId}, function () {
+                        userId: $scope.userId
+                    }, function () {
                         $window.location.href = "#/comments";
                     });
 
@@ -44,12 +45,4 @@ feedbackControllers.controller('homeController', ['$scope', '$window', '$http', 
 
             return false;
         });
-
-        $scope.logout = function () {
-            removeSession.save(function () {
-                $scope.userId = "";
-                $window.location.href = "#/login";
-            });
-        };
-
     }]);
