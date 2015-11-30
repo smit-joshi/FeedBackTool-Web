@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <title>Login</title>
+
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -26,21 +27,28 @@
             <div class="col-lg-6 col-lg-offset-3 ">
                 <h2>Sing in with us</h2>
 
-                <form name="sentMessage" id="contactForm" novalidate>
+                <form name="sentMessage" id="sentMessage" novalidate>
                     <div class="row control-group">
                         <div class="form-group  floating-label-form-group controls">
                             <label>User Name</label>
-                            <input type="text" class="form-control" ng-model="username" placeholder="Name" id="name"
-                                   required data-validation-required-message="Please enter your name.">
-
+                            <input type="text" class="form-control" ng-model="username" placeholder="UserName"
+                                   id="username" name="username" required>
+                            <span style="color:red"
+                                  ng-show="sentMessage.username.$dirty && sentMessage.username.$invalid">
+  <span ng-show="sentMessage.username.$error.required">Username is required.</span>
+  </span>
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                     <div class="row control-group">
                         <div class="form-group  floating-label-form-group controls">
                             <label>Password</label>
-                            <input type="password" class="form-control" ng-model="password" placeholder="Passwoord"
-                                   id="" required data-validation-required-message="Please enter your email address.">
+                            <input type="password" class="form-control" ng-model="password" placeholder="Password"
+                                   id="password" name="password" required>
+                            <span style="color:red"
+                                  ng-show="sentMessage.password.$dirty && sentMessage.password.$invalid">
+                            <span ng-show="sentMessage.password.$error.required">Password is required.</span>
+                            </span>
 
                             <p class="help-block text-danger"></p>
                         </div>
@@ -50,7 +58,9 @@
                     <div id="success"></div>
                     <div class="row">
                         <div class="form-group col-xs-12">
-                            <button type="submit" class="btn btn-success btn-lg" ng-click="myLogin()">Send</button>
+                            <input type="submit" id="submit" class="btn btn-success btn-lg" ng-click="myLogin()" value="Login"
+                                    ng-disabled="sentMessage.username.$dirty && sentMessage.username.$invalid ||
+  sentMessage.password.$dirty && sentMessage.password.$invalid">
                         </div>
                     </div>
                 </form>

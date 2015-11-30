@@ -43,7 +43,7 @@
                     <a aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown"
                        class="dropdown-toggle" href="javascript:;">{{userName}} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="javascript:;" ng-click="logout()">Logout</a></li>
+                        <li><a href="javascript:;" ng-click="logout()" >Logout</a></li>
                     </ul>
                 </li>
             </ul>

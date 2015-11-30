@@ -31,6 +31,7 @@ feedbackApp.directive('feedbackHeader', function () {
                     removeSession.save(function () {
                         $scope.userId = "";
                         $window.location.href = "#/login";
+                        $.toaster({priority: "success", title: "Success", message: "You've been logged out"});
                     });
                 };
             }

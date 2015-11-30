@@ -9,7 +9,7 @@ feedbackControllers.controller('commentsController', ['$scope', '$window', '$htt
         getSession.get(function (response) {
             $scope.userId = response.data.userId;
             comments.get({userId: $scope.userId}, function (data) {
-                    $scope.commentsData = data.data;
+                    $scope.dataComments = data.data;
                 },
                 function () {
                     alert("error");

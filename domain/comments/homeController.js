@@ -3,14 +3,17 @@
  */
 'use strict';
 
-feedbackControllers.controller('homeController', ['$scope', '$window', '$http', 'getSession', 'fileUploadsAndComments',
-    function ($scope, $window, $http, getSession, fileUploadsAndComments) {
+feedbackControllers.controller('homeController', ['$scope', '$window', '$http', 'getSession', 'fileUploadsAndComments', 'comments',
+    function ($scope, $window, $http, getSession, fileUploadsAndComments, comments) {
         $scope.userId = "";
 
         getSession.get(function (response) {
             $scope.userId = response.data.userId;
-
+            comments.get({userId: $scope.userId}, function (data) {
+                    $scope.dataComments = data.data;
+                });
         });
+
         $('body').on('click', '#submitClick', function (e) {
             e.preventDefault();
             var formData = new FormData($(this).parents('form')[0]);
@@ -30,19 +33,26 @@ feedbackControllers.controller('homeController', ['$scope', '$window', '$http', 
                         comments: $scope.commentsData,
                         userId: $scope.userId
                     }, function () {
-                        $window.location.href = "#/comments";
+                        if (response.message = "GA_TRANSACTION_OK") {
+                            $.toaster({priority: "success", title: "Success", message: "File Uploaded"});
+                            comments.get({userId: $scope.userId}, function (data) {
+                                $scope.dataComments = data.data;
+                            });
+                        }
+                        else
+                            $.toaster({priority: "danger", title: "Message", message: "File not uploaded"});
                     });
 
                 },
                 error: function (data) {
-                    alert("Error");
+                    $.toaster({priority: "danger", title: "Message", message: "Something went wrong"});
                 },
                 data: formData,
                 cache: false,
                 contentType: false,
                 processData: false
             });
-
             return false;
         });
+
     }]);
