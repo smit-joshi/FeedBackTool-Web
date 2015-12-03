@@ -15,6 +15,7 @@
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/upload.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
@@ -29,6 +30,7 @@
     <script src="angular/angular.min.js"></script>
     <script src="angular/angular-route.min.js"></script>
     <script src="angular/angular-resource.min.js"></script>
+    <script src="angular/ng-file-upload.min.js"></script>
     <!--FeedbackApp Angular JS files-->
     <script src="angular/main.js"></script>
     <script src="angular/mainDirective.js"></script>

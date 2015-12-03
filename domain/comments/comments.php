@@ -16,7 +16,7 @@
         <h4 style="text-align: center">History List</h4>
 
         <div class="bs-example">
-            <div class="panel-group" id="accordion" ng-repeat="comments in dataComments">
+            <div class="panel-group" id="accordion" ng-repeat="comments in dataComments | orderBy:'-commentDate'">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
@@ -27,7 +27,7 @@
                     </div>
                     <div id="collapseOne" class="panel-collapse collapse in">
                         <div class="panel-body">
-                            <p><img src="http://localhost:8080/Feedback/FeedBackTool-Web/uploads/{{comments.filepath}}"
+                            <p><img src="http://local-pc:8083/FeedbackTool/{{comments.filepath}}"
                                     height="100px;"
                                     width="100px;" alt="No Image"></p>
 

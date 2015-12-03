@@ -19,12 +19,12 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <p>Comment {{commentsData.commentId}}</p>
+                            <p>Commented On {{commentsData.commentDate}}</p>
                         </h4>
                     </div>
                     <div id="collapseOne" class="panel-collapse collapse in">
                         <div class="panel-body">
-                            <p><img src="http://localhost:8080/Feedback/FeedBackTool-Web/uploads/{{commentsData.filepath}}" height="100px;" width="100px;" alt="No Image"></p>
+                            <p><img src="http://local-pc:8083/FeedbackTool/{{commentsData.filepath}}" height="100px;" width="100px;" alt="No Image"></p>
                             <p>{{commentsData.commentsDetail}}</p>
                             <p>{{commentsData.commentDate}}</p>
                         </div>

@@ -1,7 +1,7 @@
-var feedbackApp = angular.module('myApp', ['ngRoute', 'myControllers', 'myServices']);
+var feedbackApp = angular.module('myApp', ['ngRoute', 'myControllers', 'myServices', 'ngFileUpload']);
 
-feedbackApp.constant('userConst', 'http://LOCAL-PC:8083/FeedbackTool/user/');
-feedbackApp.constant('commentConst', 'http://LOCAL-PC:8083/FeedbackTool/comments/');
+feedbackApp.constant('userConst', 'http://local-pc:8083/FeedbackTool/user/');
+feedbackApp.constant('commentConst', 'http://local-pc:8083/FeedbackTool/comments/');
 
 feedbackApp.config(['$routeProvider',
     function ($routeProvider) {
