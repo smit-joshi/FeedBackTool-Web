@@ -6,19 +6,28 @@
 feedbackControllers.controller('loginController', ['$scope', '$window', '$http', 'login', 'addSession',
     function ($scope, $window, $http, login, addSession) {
         $scope.myLogin = function () {
-
+            $.loader({
+                className: "blue-with-image-2",
+                content: ''
+            });
             login.get({username: $scope.username, password: $scope.password}, function (response) {
-                if (response.message = "GA_TRANSACTION_OK") {
+                if (response.message == "GA_TRANSACTION_OK") {
+                    $.loader('close');
                     addSession.save(response, function () {
-                        $window.location.href = "#/home";
-                        $.toaster({priority: "success", title: "Success", message: "Login Successful"});
-                    }
-                );
+                            $window.location.href = "#/home";
+                        }
+                    );
                 }
-                else
-                    $.toaster({priority: "danger", title: "Message", message: "Please enter correct username or password"});
-
-            },function(){
+                else if(response.message == "GA_AUTH_FAILED") {
+                    $.loader('close');
+                    $.toaster({
+                        priority: "danger",
+                        title: "Message",
+                        message: "Username or Password is incorrect"
+                    });
+                }
+            }, function () {
+                $.loader('close');
                 $.toaster({priority: "danger", title: "Message", message: "Please enter username or password"});
             });
         };

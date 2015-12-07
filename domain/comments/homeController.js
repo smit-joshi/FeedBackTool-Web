@@ -5,16 +5,77 @@
 
 feedbackControllers.controller('homeController', ['$scope', 'Upload', '$timeout', '$window', '$http', 'getSession', 'addComments', 'uploadFile', 'comments',
     function ($scope, Upload, $timeout, $window, $http, getSession, addComments, uploadFile, comments) {
-        $scope.userId = "";
+        $scope.userIDs = "";
+        var filePath;
+        var commentDate;
+        var commentDetail;
+        var commentId;
+        $scope.sampleProduct = [];
 
-        getSession.get(function (response) {
-            $scope.userId = response.data.userId;
-            comments.get({userId: $scope.userId}, function (data) {
-                    $scope.dataComments = data.data;
-                });
+        $.loader({
+            className: "blue-with-image-2",
+            content: ''
         });
 
-        $scope.uploadFiles = function(file, errFiles){
+        getSession.get(function (response) {
+            $scope.userIDs = response.data.userId;
+            comments.get({userId: $scope.userIDs}, function (data) {
+                $scope.dataComments = data.data;
+                $scope.commentData = [];
+                if (data.message == "GA_TRANSACTION_OK") {
+                    $.loader('close');
+                    angular.forEach($scope.dataComments, function (value, key) {
+                        $scope.commentData.push(value);
+                        commentId = $scope.commentData[key].commentId;
+                        commentDate = $scope.commentData[key].commentDate;
+                        commentDetail = $scope.commentData[key].commentsDetail;
+
+                        $scope.sampleProduct.push({
+                            "commentDate": "<a href='#/commentsDetail?commentId=" + commentId + "'>" + commentDate + " </a>",
+                            "commentDetail": commentDetail
+                        });
+                    });
+                    $scope.sampleProductCategories = $scope.sampleProduct;
+                }
+                else {
+                    $.loader('close');
+                }
+            });
+        });
+
+        $scope.myCallback = function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+
+            $('td:eq(0)', nRow).bind('click', function () {
+                alert();
+                $scope.$apply(function () {
+
+                    $scope.someClickHandler(aData);
+                });
+            });
+            return nRow;
+        };
+
+        $scope.someClickHandler = function (info) {
+            $scope.message = 'clicked: ' + info.commentDate;
+        };
+
+        $scope.columnDefs = [
+            {"mDataProp": "commentDate", "aTargets": [0]},
+            {"mDataProp": "commentDetail", "aTargets": [1]}
+        ];
+
+        $scope.overrideOptions = {
+            "bStateSave": true,
+            "iCookieDuration": 2419200, /* 1 month */
+            "bJQueryUI": true,
+            "bPaginate": true,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bInfo": true,
+            "bDestroy": true
+        };
+
+        $scope.uploadFiles = function (file, errFiles) {
             $scope.f = file;
             $scope.errFile = errFiles && errFiles[0];
             if (file) {
@@ -23,24 +84,7 @@ feedbackControllers.controller('homeController', ['$scope', 'Upload', '$timeout'
                     data: {file: file}
                 }).then(function (response) {
                     //alert('Success ' + response.config.data.file.name + ' uploaded. Response: ' + JSON.stringify(response.data));
-                    var filePath = response.data.data.filepath;
-                    if(response.message = "GA_TRANSACTION_OK"){
-                        addComments.save({
-                            filePath: filePath,
-                            comments: $scope.commentsData,
-                            userId: $scope.userId
-                        }, function (data) {
-                            if (data.message = "GA_TRANSACTION_OK") {
-                                $("#commentsData").val("");
-                                $.toaster({priority: "success", title: "Success", message: "File Uploaded"});
-                                comments.get({userId: $scope.userId}, function (anotherData) {
-                                    $scope.dataComments = anotherData.data;
-                                });
-                            }
-                            else
-                                $.toaster({priority: "danger", title: "Message", message: "File not uploaded"});
-                        });
-                    }
+                    filePath = response.data.data.filepath;
                 });
 
                 file.upload.then(function (response) {
@@ -53,81 +97,33 @@ feedbackControllers.controller('homeController', ['$scope', 'Upload', '$timeout'
                 }, function (evt) {
                     file.progress = Math.min(100, parseInt(100.0 *
                         evt.loaded / evt.total));
-
                 });
             }
         }
 
-       /* $scope.upload = function(){
-            var file = $("#image").val();
-            alert(file);
-            uploadFile.save({file:file},function(response){
-                if (response.message = "GA_TRANSACTION_OK") {
+        $scope.submitData = function (response) {
+            $.loader({
+                className: "blue-with-image-2",
+                content: ''
+            });
+            addComments.save({
+                filePath: filePath,
+                comments: $scope.commentsData,
+                userId: $scope.userId
+            }, function (data) {
+                if (data.message = "GA_TRANSACTION_OK") {
                     $("#commentsData").val("");
-                    $("#image").val("");
+                    $("#submitClick").val("");
                     $.toaster({priority: "success", title: "Success", message: "File Uploaded"});
-                    addComments.save({
-                        filePath: filePath,
-                        comments: $scope.commentsData,
-                        userId: $scope.userId
-                    }, function (response) {
-                        if (response.message = "GA_TRANSACTION_OK") {
-                            $("#commentsData").val("");
-                            $("#image").val("");
-                            $.toaster({priority: "success", title: "Success", message: "File Uploaded"});
-                            comments.get({userId: $scope.userId}, function (data) {
-                                $scope.dataComments = data.data;
-                            });
-                        }
-                        else
-                            $.toaster({priority: "danger", title: "Message", message: "File not uploaded"});
+                    comments.get({userId: $scope.userId}, function (anotherData) {
+                        $.loader('close');
+                        $scope.dataComments = anotherData.data;
                     });
                 }
                 else
+                    $.loader('close');
                     $.toaster({priority: "danger", title: "Message", message: "File not uploaded"});
             });
-        }*/
-
-        /*$('body').on('click', '#submitClick', function (e) {
-            e.preventDefault();
-            var formData = new FormData($(this).parents('form')[0]);
-            $.ajax({
-                url: 'http://LOCAL-PC:8083/FeedbackTool/comments/uploadfile',
-                type: 'POST',
-                xhr: function () {
-                    var myXhr = $.ajaxSettings.xhr();
-                    return myXhr;
-                },
-                success: function (data) {
-                    var filePath = data.data.filepath;
-
-                    addComments.save({
-                        filePath: filePath,
-                        comments: $scope.commentsData,
-                        userId: $scope.userId
-                    }, function (response) {
-                        if (response.message = "GA_TRANSACTION_OK") {
-                            $("#commentsData").val("");
-                            $("#image").val("");
-                            $.toaster({priority: "success", title: "Success", message: "File Uploaded"});
-                            comments.get({userId: $scope.userId}, function (data) {
-                                $scope.dataComments = data.data;
-                            });
-                        }
-                        else
-                            $.toaster({priority: "danger", title: "Message", message: "File not uploaded"});
-                    });
-
-                },
-                error: function (data) {
-                    $.toaster({priority: "danger", title: "Message", message: "Something went wrong"});
-                },
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false
-            });
-            return false;
-        });*/
+        }
 
     }]);
